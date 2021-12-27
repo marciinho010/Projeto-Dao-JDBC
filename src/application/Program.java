@@ -15,6 +15,7 @@ public class Program {
 
 	public static void main(String[] args) throws ParseException {
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
 		Scanner sc = new Scanner(System.in);
 		char decisao;
 		SellerDao sellerDao = DaoFactory.createSellerDao();
@@ -28,33 +29,55 @@ public class Program {
 			System.out.println("==[03] ---------------------------Delete---------===");
 			System.out.println("==[04] ---------------------------Consult--------===");
 			System.out.println("==[05] --------------------List by Department----===");
-			System.out.println("==[06] --------------------List by Employee------===");
+			System.out.println("==[06] --------------------List all Employee------===");
 			System.out.println("==[0] ----------------------------Exit-----------===");
-			System.out.print("== Ente an option: ");
+			System.out.print("==Ente an option: ");
 			int caso = sc.nextInt();
 			switch (caso) {
 				
 				case 1:
-					 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
 					
 					System.out.println("==Inform Employee Data==");
-					System.out.print("Name:");
-					String name = sc.next();;
-					System.out.print("Email: ");
-					String email = sc.next();
-					System.out.print("Birthday (dd/MM/yyy): ");
+					System.out.print("==Name: ");
+					String name = sc.next();
+					sc.nextLine();
+					System.out.print("==Email: ");
+					String email = sc.nextLine();
+					System.out.print("==Birthday (dd/MM/yyy): ");
 					Date data = sdf.parse(sc.next());
-					System.out.print("Base Salary: ");
+					System.out.print("==Base Salary: ");
 					Double baseSalary = sc.nextDouble();
-					System.out.print("Department ID: ");
+					System.out.print("==Department ID: ");
 					int idDepartment = sc.nextInt();		
 					Seller newSeller = new Seller(null,name,email,data,baseSalary,new Department(idDepartment,null));
 					sellerDao.insert(newSeller);
-					System.out.println("Inserted!! New id: " + newSeller.getId());
+					System.out.println("==Inserted!! New id: " + newSeller.getId());
 					
 				break;
 				
 				case 2:
+					System.out.print("==Inform Eployee ID for update: ");
+					int idUpdate = sc.nextInt();
+					Seller seller = sellerDao.findById(idUpdate);
+					System.out.println("==Updating employee " + seller.getName());
+					System.out.print("==Name: ");
+					name = sc.nextLine();
+					seller.setName(name);
+					sc.nextLine();
+					System.out.print("==Email: ");
+					email = sc.nextLine();
+					seller.setEmail(email);
+					System.out.print("==Birthday (dd/MM/yyy): ");
+					data = sdf.parse(sc.next());
+					seller.setBirthDate(data);
+					System.out.print("==Base Salary: ");
+					baseSalary = sc.nextDouble();
+					seller.setBaseSalary(baseSalary);
+					System.out.print("==Department ID: ");
+					idDepartment = sc.nextInt();
+					seller.getDepartment().setId(idDepartment);
+					sellerDao.update(seller);
+					System.out.println("==Update completed!.==");
 					
 				break;
 					
@@ -64,9 +87,9 @@ public class Program {
 				
 				case 4:
 					
-					System.out.print("=Informe o id do Funcionário: ");
+					System.out.print("==Inform the Employee ID: ");
 					int id = sc.nextInt();
-					Seller seller = sellerDao.findById(id);
+					seller = sellerDao.findById(id);
 					System.out.println("");
 					System.out.println(seller);
 					
@@ -75,11 +98,11 @@ public class Program {
 				
 				case 5:
 					
-					System.out.print("Informe o ID do Departamento: ");
+					System.out.print("==Enter the Department ID: ");
 					idDepartment = sc.nextInt();
 					Department department = new Department(idDepartment, null);
 					List<Seller> list = sellerDao.findByDepartment(department);				
-					System.out.println("=Lista de Funcionários por Departamento= ");
+					System.out.println("==List of Employees by Department==");
 					for(Seller obj : list) {
 						System.out.println("\n" + obj);
 					}
@@ -91,7 +114,7 @@ public class Program {
 					
 					System.out.println();
 					List<Seller> listFindAll = sellerDao.findAll();
-					System.out.println("====Lista de todos os funcionários====");
+					System.out.println("====List of all employees====");
 					for (Seller obj : listFindAll) {
 						System.out.println("\n" + obj);
 					}
@@ -99,16 +122,16 @@ public class Program {
 				break;
 				
 				case 0:
-						System.out.println("Obrigado!");
+						System.out.println("==Thank you!==");
 				break;
 			
 				default:
-					System.out.println("Opção inválida, digite novamente!");
+					System.out.println("==Invalid option, type again!===");
 				}
-				System.out.println("Deja realizar mais alguma operação? [n] - Não / [s] - Sim");
+				System.out.print("==Do you want to perform any more operations? [n] - no / [y] - yes: ");
 				 decisao = sc.next().charAt(0);
-		}while( decisao == 's');
-		System.out.println("Programa Finalizado!.");
+		}while( decisao == 'y');
+		System.out.println("==Finished Program!.==");
 	sc.close();
 	}
 }
