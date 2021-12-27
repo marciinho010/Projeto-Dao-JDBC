@@ -29,7 +29,7 @@ public class Program {
 			System.out.println("==[03] ---------------------------Delete---------===");
 			System.out.println("==[04] ---------------------------Consult--------===");
 			System.out.println("==[05] --------------------List by Department----===");
-			System.out.println("==[06] --------------------List all Employee------===");
+			System.out.println("==[06] --------------------List all Employee-----===");
 			System.out.println("==[0] ----------------------------Exit-----------===");
 			System.out.print("==Ente an option: ");
 			int caso = sc.nextInt();
@@ -83,12 +83,16 @@ public class Program {
 					
 				case 3:
 					
+					System.out.print("Enter the Employee ID :");
+					int id = sc.nextInt();
+					sellerDao.deleteById(id);
+					System.out.println("Delete completed!");
 				break;
 				
 				case 4:
 					
 					System.out.print("==Inform the Employee ID: ");
-					int id = sc.nextInt();
+					id = sc.nextInt();
 					seller = sellerDao.findById(id);
 					System.out.println("");
 					System.out.println(seller);
